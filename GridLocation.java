@@ -1,7 +1,7 @@
 /* GridLocation class - helper class to store coordinates more easily
  * Author: Joel Bianchi
- * Last Edit: 5/8/25
- * Updated to Java version
+ * Last Edit: 5/10/25
+ * Modified toString
  */
 
 
@@ -24,7 +24,7 @@ public class GridLocation{
   }
   
   public String toString(){
-    return row + "," + col;
+    return "[" + row + "," + col + "]";
   }
   
   public int getYCoord() {

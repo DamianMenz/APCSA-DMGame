@@ -1,8 +1,8 @@
 /* Screen class - a high level class that handles background screens & millisecond timing
  * Has a World Subclass
  * Author: Joel Bianchi & Carey Jiang
- * Last Edit: 5/8/25
- * Updated to Java version
+ * Last Edit: 5/13/25
+ * Comment Revisions
  */
 
 
@@ -24,19 +24,20 @@ public class Screen{
 
     //------------------ SCREEN CONSTRUCTORS --------------------//
 
-    //Screen Constructor #1: Stationary background image
+    // Screen Constructor #1: Stationary background image
     public Screen(PApplet p, String screenName, PImage bg) {
         this.p = p;
         this.isMoveable = false;
         this.setName(screenName);
         if(bg != null) {
             this.setBg(bg);
+            System.out.println("bg of " + screenName + " Screen: " + Util.toStringPImage(bg));
         }
-        System.out.println("bg of " + screenName + " Screen: " + Util.toStringPImage(bg));
         startTime = getTotalTime(); //?
+
     }
 
-    //Screen Constructor #2: For background images that move - Takes String (Coded as a Sprite, not a Processing background PImage)
+    // Screen Constructor #2: For background images that move - Takes String (Coded as a Sprite, not a Processing background PImage)
     public Screen(PApplet p, String screenName, String movingBgFile, float scale, float x, float y) {
         this.p = p;
         this.isMoveable = true;
@@ -45,7 +46,7 @@ public class Screen{
         startTime = getTotalTime();
     }
 
-    //Screen Constructor #3: For background images that move - Takes PImage (Coded as a Sprite, not a Processing background PImage)
+    // Screen Constructor #3: For background images that move - Takes PImage (Coded as a Sprite, not a Processing background PImage)
     public Screen(PApplet p, String screenName, PImage movingBg, float scale, float x, float y) {
         this.p = p;
         this.isMoveable = true;
@@ -56,19 +57,26 @@ public class Screen{
 
 
     //------------------ ACCESSORS & MUTATORS --------------------//
+    
+    // Sets the name of the Screen to be used for debugging
     public void setName(String screenName){
         this.screenName = screenName;
     }
+
+    // Gets the name of the Screen to be used for debugging
     public String getName(){
         return screenName;
     }
 
+    // Sets the background image for NON-MOVEABLE backgrounds
     public void setBg(PImage bg){
         if(!isMoveable){
             this.bg = bg;
             //p.background(bg);
         }
     }
+
+    // Gets the background as a PImage
     public PImage getBgImage(){
         
         if(isMoveable){
@@ -77,6 +85,7 @@ public class Screen{
         return bg;
     }
 
+    // Accessor method to check if the Screen's background is moveable
     public boolean getIsMoveable(){
         return isMoveable;
     }
@@ -84,7 +93,7 @@ public class Screen{
 
     //------------------ SCREEN MOVING METHODS --------------------//
 
-    //move the background image in the X & Y directions
+    // moves the background image in the X & Y directions
     public void moveBgXY(float speedX, float speedY){
         if(isMoveable){
             mbg.move(speedX, speedY);
@@ -93,45 +102,69 @@ public class Screen{
         }
     }
 
+    // Moves the left edge of the background to a specified pixel (ie. -50.0f)
     public void setLeftX(float leftX) {
         mbg.setLeft(leftX);
     }
+
+    // Returns the pixel value for the left edge of the background image
     public float getLeftX() {
         return mbg.getLeft();
     }
 
+    // Moves the top edge of the background to a specified pixel (ie. -50.0f)
     public void setTopY(float topY) {
         mbg.setTop(topY);
     }
+
+    // Returns the pixel value for the top edge of the background image
     public float getTopY() {
         return mbg.getTop();
     }
 
-    //updates any movement of the background
+    // Updates any movement of the background to be shown
     public void show(){
         if(isMoveable){
             mbg.show();
+        } else if(bg != null){
+            p.background(bg);
         }
     }
 
+    // Returns distance to right edge for a moveable background -CAREY JIANG 2024
+    public float distToRightEdge(){
+        return (mbg.getW() - p.width) + (mbg.getLeft());
+    }
 
 
     //------------------ SCREEN TIME METHODS --------------------//
 
+    // Returns the total number of milliseconds the game has been running
     public long getTotalTime(){
-        return p.millis();  //milliseconds world
+        return p.millis();
     }
+
+    // Returns the milliseconds the Screen has been running
     public long getScreenTime(){
-        return p.millis() - startTime;  //milliseconds world
+        return p.millis() - startTime;
     }
+
+    // Returns the milliseconds from a previous time
     public long getTimeSince(long lastCheck){
         return getScreenTime() - lastCheck;
     }
+
+    // Returns the seconds the Screen has been running
     public float getScreenTimeSeconds(){
         return getScreenTime() / 1000.0f;
     }
+
+    // Resets the timer for the screen.  Can be used when Screen first becomes visible
+    public void resetTime(){
+        startTime = getTotalTime();
+    }
     
-    //pauses ALL screen methods!
+    // Pauses ALL screen methods!
     public void pause(final int milliseconds) {
         try {
             Thread.sleep(milliseconds);
@@ -140,10 +173,7 @@ public class Screen{
         }
     }
 
-    //resets the timer for the screen
-    public void resetTime(){
-        startTime = getTotalTime();
-    }
+
 
 
     public String toString(){

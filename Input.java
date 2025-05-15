@@ -1,8 +1,8 @@
 /* Input class - to have popup boxes for users to type data
- * Forked from North Toronto Collegiate Institute, Gerry Heffernan: https://ntci.on.ca/compsci/hef/ics3/ch1/1_4.html
+ * Modified from North Toronto Collegiate Institute, Gerry Heffernan: https://ntci.on.ca/compsci/hef/ics3/ch1/1_4.html
  * Authors: Joel Bianchi
- * Last Edit: 5/8/25
- * Updated to Java version
+ * Last Edit: 5/13/25
+ * Renamed prompt --> question
  */
 
 
@@ -11,9 +11,16 @@ import javax.swing.*;
 
 public class Input{
 
-    public static String prompt(String s) {
-        System.out.println(s);
-        String entry = JOptionPane.showInputDialog(s);
+    /**
+	 * Generates a pop-up question on the Screen
+	 * @param questionText String prompt for the user
+	 * 						(Hint: Use new line escape characters (\n) in your String
+	 * 						if it is too long to fit neatly into the box.)
+	 * @return a String with the Adventurer's answer 
+	 */     
+    public static String question(String questionText) {
+        System.out.println(questionText);
+        String entry = JOptionPane.showInputDialog(questionText);
         if (entry == null){
             return null;
         }
@@ -22,7 +29,7 @@ public class Input{
     }
 
     public static String getString(String s){
-        return prompt(s);
+        return question(s);
     }
 
     public static int getInt(String s){
@@ -42,12 +49,23 @@ public class Input{
     }
 
     public static char getChar(String s){
-        String entry = prompt(s);
+        String entry = question(s);
         if (entry.length() >= 1){
             return entry.charAt(0);
         } else {
             return '\n';
         }
     }
+
+    // /**
+	//  * Generates a pop-up message that can be closed
+	//  * @param questionText String prompt for the user
+	//  * 						(Hint: Use new line escape characters (\n) in your String
+	//  * 						if it is too long to fit neatly into the box.
+	//  */
+	// public void message(String messageText){
+    //     System.out.println(messageText);
+	// 	JOptionPane.showMessageDialog(null, messageText, "Important message!", JOptionPane.PLAIN_MESSAGE);
+	// }
 
 }

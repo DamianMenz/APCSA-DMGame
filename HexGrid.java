@@ -3,8 +3,8 @@
  * https://github.com/CSRessel/catan/blob/master/src/gui/CatanBoard.java
  * Adapted for Processing
  * Authors: Joel Bianchi, Naomi Gaylor, Ezzeldin Moussa
- * Last Edit: 5/8/25
- * Updated to Java version
+ * Last Edit: 5/10/25
+ * Using new PColor methods
  * NOT FULLY FUNCTIONAL YET
  */
  
@@ -27,7 +27,7 @@ public class HexGrid {
     private HexTile[][] map;
     private int defaultOutlineColor = 0xFFFFFF; // #FFFFFF;	//WHITE
     private int defaultFillColor = 0x000000; // #000000; 		//BLACK
-	private int defaultBgColor = Color.getColor(164,200,218);
+	private int defaultBgColor = PColor.get(164,200,218);
 	
 	private boolean bgSet = false;
 

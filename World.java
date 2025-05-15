@@ -1,8 +1,8 @@
 /* World Class - Used to describe the screen of a pixel-based game
  * Subclass of a Screen, includes an ArrayList of Sprite objects
  * Authors: Joel Bianchi, Nathan Santos, Clive Sherwood, Vanessa Balbuena
- * Last Edit: 5/8/25
- * Updated to Java version
+ * Last Edit: 5/10/25
+ * Comment Revisions
  */
 
 import java.util.ArrayList;
@@ -12,22 +12,21 @@ import processing.core.PImage;
 public class World extends Screen{
 
   //------------------ WORLD FIELDS --------------------//
-  //private static World currentWorld = null; //static variable to track the current world
   private ArrayList<Sprite> sprites = new ArrayList<Sprite>();
   long lastSpriteUpdateTime = 0;
 
   //------------------ WORLD CONSTRUCTORS --------------------//
-  // World Constructor #1
+  // World Constructor #1: Creates a World with the specificed background image
   public World(PApplet p, String name, PImage bgImg) {
     super(p, name, bgImg);
   }
 
-  // World Constructor #2
+  // World Constructor #2: Creates a World with no background image
   public World(PApplet p, String name) {
     this(p, name, null);
   }
   
-  // World Constructor #3
+  // World Constructor #3: Creates a default World
   public World(PApplet p) {
     this(p, "default world", null);
   }
@@ -37,7 +36,7 @@ public class World extends Screen{
   //    super(p, name, movingBgFile, scale, x, y);
   // }
 
-  // World Constructor #5 for Moveable Backgrounds
+  // World Constructor #5: Creates a World with a moving background.  Image can be scaled to be bigger so the background doesn't run out too quickly!
   public World(PApplet p, String name, PImage movingBg, float scale, float x, float y) {
     super(p, name, movingBg, scale, x, y);
     System.out.println("World " + name + " constructed with " + Util.toStringPImage(movingBg));
@@ -45,6 +44,8 @@ public class World extends Screen{
 
 
   //------------------ WORLD SPRITE METHODS --------------------//
+  
+  // Returns an ArrayList of all Sprites in the World
   public ArrayList<Sprite> getSprites(){
       return sprites;
   }
@@ -53,15 +54,6 @@ public class World extends Screen{
   public void addSprite(Sprite sprite) {
     if (!sprites.contains(sprite)) {
       sprites.add(sprite);
-    }
-  }
-
-  // Adds a copy of a Sprite to a specific coordinate in the World
-  public void addSpriteCopyTo(Sprite sprite, float x, float y) {
-    if(sprite.getIsAnimated()){
-      sprites.add( ((AnimatedSprite)sprite).copyTo(x,y));
-    } else {
-      sprites.add(sprite.copyTo(x,y));
     }
   }
 
@@ -75,6 +67,15 @@ public class World extends Screen{
   }
 
   // Adds a copy of a Sprite to a specific coordinate in the World
+  public void addSpriteCopyTo(Sprite sprite, float x, float y) {
+    if(sprite.getIsAnimated()){
+      sprites.add( ((AnimatedSprite)sprite).copyTo(x,y));
+    } else {
+      sprites.add(sprite.copyTo(x,y));
+    }
+  }
+
+  // Adds a copy of an Animated Sprite to a specific coordinate in the World
   public void addSpriteCopyTo(Sprite sprite, float x, float y, float aSpeed) {
     if(sprite.getIsAnimated()){
       sprites.add( ((AnimatedSprite)sprite).copyTo(x, y, aSpeed));

@@ -1,8 +1,8 @@
 /* Button Class - Used to add a button into a Game
  * Author: Joel Bianchi
- * Last Edit: 5/8/25
- * Updated to Java version
- * TODO: Add default colors for all constructed Buttons
+ * Last Edit: 5/13/25
+ * PColor edits
+ * Capital Letter bug fix
  */
 
 import processing.core.PApplet;
@@ -37,29 +37,29 @@ public class Button {
     //------------------ BUTTON CONSTRUCTORS --------------------//
 
     //Button Constructor #1
-    public Button(PApplet p, String shape, float x, float y, float w, float h, String txt) {
+    public Button(PApplet p, String shape, float x, float y, float w, float h, String text) {
 
         this.p = p;
         //super(null,1.0, x, y,false);  //if Button is Sprite
-        this.shape = shape;
+        this.shape = shape.toUpperCase();
         this.shapeW = w;
         this.shapeH = h;
         this.shapeX = x + (shapeW/2);
         this.shapeY = y + (shapeH/2);
         this.shapeRounding = 24;
-        this.text = txt;
-        this.textColor = Color.BLACK;
+        this.text = text;
+        this.textColor = PColor.BLACK;
         this.fontFactor = 0.9f;
         this.fontSize = shapeH/2 * fontFactor;
-        this.baseColor = Color.YELLOW;
+        this.baseColor = PColor.YELLOW;
         this.doesHoverHighlight = true;
-        this.hoverColor = Color.BLUE;
+        this.hoverColor = PColor.BLUE;
         this.doesClickHighlight = true;
-        this.clickColor = Color.RED;
+        this.clickColor = PColor.RED;
         this.currentColor = baseColor;
-        this.outlineColor = Color.BLACK;
+        this.outlineColor = PColor.BLACK;
         this.isVisible = true;
-        this.font = p.createFont("Helvetica", fontSize); //"Helvetica", "Georgia"
+        this.font = p.createFont("fonts/Helvetica", fontSize); //"Helvetica", "Georgia"
     }
 
 
@@ -88,16 +88,16 @@ public class Button {
         if(isVisible){
 
             //Draws particular Button Shape
-            if(shape.equals("circle")){
+            if(shape.equals("CIRCLE")){
                 p.ellipseMode(p.CENTER);
                 p.ellipse(shapeX, shapeY, shapeW, shapeH);
             //     System.out.println("circle shape");
-            } else if(shape.equals("rect")){
+            } else if(shape.equals("RECT")){
                 p.rectMode(p.CENTER);
                 p.rect(shapeX, shapeY, shapeW, shapeH, shapeRounding, shapeRounding, shapeRounding, shapeRounding);
-                // System.out.println("rect shape");
+                // System.out.println("RECT shape");
             } else {
-                System.out.println("Wrong shape String.  Type \"rect\" or \"circle\"");
+                System.out.println("Wrong shape String.  Type \"RECT\" or \"CIRCLE\"");
                 return;
             }
 
@@ -125,9 +125,9 @@ public class Button {
     }
     
     public boolean isMouseOverButton(){ //move to Sprite class eventually
-        if(shape.equals("rect")){
+        if(shape.equals("RECT")){
             return isOverRect();
-        } else if(shape.equals("circle")){
+        } else if(shape.equals("CIRCLE")){
             return isOverCircle();
         } else {
             return false;
@@ -147,7 +147,7 @@ public class Button {
         float diameter = shapeH;
         float disX = shapeX - p.mouseX;
         float disY = shapeY - p.mouseY;
-        if (p.sqrt(p.sq(disX) + p.sq(disY)) < diameter/2 ) {
+        if (Math.sqrt(Math.pow(disX,2) + Math.pow(disY,2)) < diameter/2 ) {
             return true;
         } else {
             return false;
@@ -159,8 +159,8 @@ public class Button {
     public void setText(String text){
         this.text = text;
     }
-    public void setTextColor(int c){
-        this.textColor = c;
+    public void setTextColor(int color){
+        this.textColor = color;
     }
     public void setFontStyle(String fontStyleFile){
         this.fontStyle = fontStyleFile;
@@ -169,22 +169,22 @@ public class Button {
     public void setFontFactor(float ff){
         this.fontFactor = ff;
     }
-    public void setButtonColor(int c){
-        this.baseColor = c;
+    public void setButtonColor(int color){
+        this.baseColor = color;
     }
-    public void setOutlineColor(int c){
-        this.outlineColor = c;
+    public void setOutlineColor(int color){
+        this.outlineColor = color;
     }
-    public void setHoverHighlight(boolean b){
-        this.doesHoverHighlight = b;
+    public void setHoverHighlight(boolean highlight){
+        this.doesHoverHighlight = highlight;
     }
 
     //Method to pass in a Processing color or null
-    //ie. color(0,0,255) for blue
-    public void setHoverColor(Integer hoverColor){
-        if(hoverColor != null){
+    //ie. Color.getColor(0,0,255) OR Color.BLUE
+    public void setHoverColor(Integer color){
+        if(color != null){
             setHoverHighlight(true);
-            this.hoverColor = hoverColor;
+            this.hoverColor = color;
         } else {
             setHoverHighlight(false);
         }
@@ -196,16 +196,16 @@ public class Button {
 
     //Method to pass in a Processing color or null
     //ie. color(0,0,255) for blue
-    public void setClickColor(Integer clickColor){
-        if(clickColor != null){
+    public void setClickColor(Integer color){
+        if(color != null){
             setClickHighlight(true);
-            this.clickColor = clickColor;
+            this.clickColor = color;
         } else {
             setClickHighlight(false);
         }
     }
-    public void setVisible(boolean b){
-        this.isVisible = b;
+    public void setVisible(boolean visible){
+        this.isVisible = visible;
     }
 
 

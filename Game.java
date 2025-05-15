@@ -1,7 +1,7 @@
 /* Game Class Starter File
  * Authors: Joel A. Bianchi
- * Last Edit: 5/8/25
- * Updated to Java version
+ * Last Edit: 5/15/25
+ * using new Screen show method
  */
 
 //import processing.sound.*;
@@ -16,7 +16,7 @@ public class Game extends PApplet{
   PApplet p;
 
   // VARIABLES: Title Bar
-  String titleText = "PeanutChessSkyHorse";
+  String titleText = "PeanutChessSkyHorse2";
   String extraText = "CurrentLevel?";
   String name = "";
 
@@ -120,12 +120,12 @@ public class Game extends PApplet{
     level1Grid.setTileSprite(new GridLocation (player2Row, player2Col), player2);
 
     b1 = new Button(this, "rect", 625, 525, 150, 50, "GoTo Level 2");
-    b1.setFontStyle("fonts/spidermanFont.ttf");
-    b1.setFontStyle("Helvetica");
-    b1.setTextColor(Color.WHITE);
-    b1.setButtonColor(Color.BLACK);
-    b1.setHoverColor(Color.getColor(100,50,200));
-    b1.setOutlineColor(Color.WHITE);
+    // b1.setFontStyle("fonts/spidermanFont.ttf");
+    // b1.setFontStyle("Helvetica");
+    b1.setTextColor(PColor.WHITE);
+    b1.setButtonColor(PColor.BLACK);
+    b1.setHoverColor(PColor.get(100,50,200));
+    b1.setOutlineColor(PColor.WHITE);
 
     System.out.println("Done loading Level 1 ...");
     
@@ -234,8 +234,7 @@ public class Game extends PApplet{
 
     // Display color of pixel clicked
     int color = p.get(p.mouseX, p.mouseY);
-    // System.out.println("Pixel color --> (R:"+(int)p.red(color)+",G:"+(int)p.green(color)+",B:"+(int)p.blue(color)+")");
-    Color.printColors(p, color);
+    PColor.printPColor(p, color);
 
     // Print grid coordinate clicked
     if(currentGrid != null){
@@ -243,8 +242,10 @@ public class Game extends PApplet{
     }
 
     // what to do if clicked? (ex. assign a new location to player1)
-    player1Row = currentGrid.getGridLocation().getRow();
-    player1Col = currentGrid.getGridLocation().getCol();
+    if(currentScreen == level1Grid){
+      player1Row = currentGrid.getGridLocation().getRow();
+      player1Col = currentGrid.getGridLocation().getCol();
+    }
     
 
 
@@ -270,9 +271,7 @@ public class Game extends PApplet{
   public void updateScreen(){
 
     // UPDATE: Background of the current Screen
-    if(!currentScreen.getIsMoveable() ){
-      p.background(currentScreen.getBgImage());
-    }
+    currentScreen.show();
 
     // UPDATE: splashScreen
     if(currentScreen == splashScreen && splashScreen.getScreenTime() > 3000 && splashScreen.getScreenTime() < 5000){
