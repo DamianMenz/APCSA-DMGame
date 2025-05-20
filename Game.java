@@ -16,7 +16,7 @@ public class Game extends PApplet{
   PApplet p;
 
   // VARIABLES: Title Bar
-  String titleText = "RocketRanger";
+  String titleText = "SuperRocketRanger";
   String extraText = "CurrentLevel?";
   String name = "";
 
