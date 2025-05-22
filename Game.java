@@ -111,7 +111,7 @@ public class Game extends PApplet{
 
     //SETUP: Screens, Worlds, Grids
     splashScreen = new Screen(p, "splash", splashBg);
-    level1Grid = new Grid(p, "chessBoard", level1Bg, 6, 8);
+    level1Grid = new Grid(p, "chessBoard", level1Bg, 5, 3);
     // level1Grid.startPrintingGridMarks();
     level2World = new World(p, "sky", level2BgFile, 4.0f, 0.0f, -800.0f); //moveable World constructor --> defines center & scale (x, scale, y)???
     
@@ -214,7 +214,7 @@ public class Game extends PApplet{
     if(currentScreen == level1Grid){
 
       //set [W] key to move the player1 up & avoid Out-of-Bounds errors
-      if(p.keyCode == 83){
+      if(p.key == 's'){
       
         //Store old GridLocation
         GridLocation oldLoc = new GridLocation(player2Row, player2Col);
