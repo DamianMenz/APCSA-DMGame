@@ -27,12 +27,12 @@ public class Game extends PApplet{
   // VARIABLES: Splash Screen
   Screen splashScreen;
   PImage splashBg;
-  String splashBgFile = "images/apcsa.png";
+  String splashBgFile = "images/SRR.jpg";
   //SoundFile song;
 
   // VARIABLES: Level1Grid Screen
   Grid level1Grid;
-  String level1BgFile = "images/chess.jpg";
+  String level1BgFile = "images/SpaceBG.jpg";
   PImage level1Bg;
   String player1File = "images/x_wood.png";
   PImage player1;   // Use PImage to display the image in a GridLocation
