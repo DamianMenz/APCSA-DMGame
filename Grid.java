@@ -2,8 +2,8 @@
  * A 2D array of GridTiles which can be marked
  * Subclass of World that can show all Images & Sprites
  * Author: Joel Bianchi & RJ Morel
- * Last Edit: 5/20/25
- * Added show method to Grid
+ * Last Edit: 5/27/25
+ * setAllMarks() method that can take in a 2D array of Strings
  */
 
 
@@ -21,8 +21,23 @@ public class Grid extends World{
 
   //------------------ GRID CONSTRUCTORS --------------------//
 
-  //Grid constructor #1
+  // Grid Constructor #1: Default constructor that creates a 3x3 Grid  
+  public Grid(PApplet p){
+     this(p, 3,3);
+  }
+
+  //Grid Construtor #2: Only accepts the number of rows & columns (Default for 2023)
+  public Grid(PApplet p, int rows, int cols){
+    this(p, "grid",null, rows, cols);
+  }
+
+  //Grid constructor #3: Sets background image + rows & cols
   public Grid(PApplet p, String screenName, PImage bg, int rows, int cols){
+    this(p, screenName, bg, null, rows, cols);
+  }
+
+  // Grid constructor #4: Takeas in 2D String array parameter to set tile marks
+  public Grid(PApplet p, String screenName, PImage bg, String[][] tileMarks, int rows, int cols){
     super(p, screenName, bg);
 
     this.rows = rows;
@@ -34,18 +49,12 @@ public class Grid extends World{
         board[r][c] = new GridTile(p, new GridLocation(r,c));
       }
     }
-  }
 
-  //Grid Construtor #2: Only accepts the number of rows & columns (Default for 2023)
-  public Grid(PApplet p, int rows, int cols){
-    this(p, "grid",null, rows, cols);
-  }
+    if(tileMarks != null){
+      setAllMarks(tileMarks);
+    }
 
-  // Grid Constructor #3: Default constructor that creates a 3x3 Grid  
-  public Grid(PApplet p){
-     this(p, 3,3);
   }
-
 
   //------------------ GRID MARKING METHODS --------------------//
  
@@ -53,7 +62,7 @@ public class Grid extends World{
   // This mark is not necessarily visible, but can help in tracking
   // what you want recorded at each GridLocation.
   public void setMark(String mark, GridLocation loc){
-    board[loc.getRow()][loc.getCol()].setNewMark(mark);
+    board[loc.getRow()][loc.getCol()].setMark(mark);
     if(printingGridMarks){
       printGrid();
     }
@@ -106,6 +115,42 @@ public class Grid extends World{
   }
   public void stopPrintingGridMarks(){
     printingGridMarks = false;
+  }
+
+  // Sets the marks for an entire grid from a 2D String array
+  // tileMarks MUST match the same number of rows & columns as the grid
+  public void setAllMarks(String[][] tileMarks){
+
+    if(tileMarks != null){
+
+      int markRows = rows;
+      int markCols = cols;
+      
+      if(tileMarks.length > rows){
+        System.out.println("TileMarks has TOO MANY rows!");
+      } else if (tileMarks.length < rows){
+        System.out.println("TileMarks does not have enough rows!");
+        markRows = tileMarks.length;
+      }
+
+      if(tileMarks[0].length > cols){
+        System.out.println("TileMarks has TOO MANY columns!");
+      } else if (tileMarks[0].length < cols){
+        System.out.println("TileMarks does not have enough columns!");
+        markCols = tileMarks[0].length;
+      }
+
+      // System.out.println(markR)
+
+      for(int r=0; r<markRows; r++){
+        for(int c=0; c<markCols; c++){
+          board[r][c].setMark(tileMarks[r][c]);
+        }
+      }
+      
+    } else {
+      System.out.println("Cannot setup tileMarks because object is NULL!");
+    }
   }
 
 
