@@ -45,7 +45,7 @@ public class Game extends PApplet{
   AnimatedSprite rocket;
   String rocketFile = "sprites/Rocket.png";
   String rocketJson = "sprites/Rocket.json";
-  int rocketRow = 3;
+  int rocketRow = 4;
   int rocketCol = 1;
   int health = 3;
 
@@ -66,7 +66,7 @@ public class Game extends PApplet{
   // Processing method that runs once for screen resolution settings
   public void settings() {
     //SETUP: Match the screen size to the background image size
-    size(800,600);  //these will automatically be saved as width & height
+    size(800,500);  //these will automatically be saved as width & height
 
     // Allows p variable to be used by other classes to access PApplet methods
     p = this;
@@ -98,7 +98,7 @@ public class Game extends PApplet{
    
     //SETUP: Construct each Screen, World, Grid
     splashScreen = new Screen(p, "splash", splashBg);
-    grid1 = new Grid(p, "space", grid1Bg, 5, 3);
+    grid1 = new Grid(p, "space", grid1Bg, 6, 5);
     endScreen = new World(p, "end", endBg);
     currentScreen = splashScreen;
 
@@ -106,7 +106,10 @@ public class Game extends PApplet{
     runningHorse = new AnimatedSprite(p, "sprites/horse_run.png", "sprites/horse_run.json", 50.0f, 75.0f, 1.0f);
 
     //SETUP: Setup more grid1 objects
-    rocket = new AnimatedSprite(p, rocketFile, rocketJson, 0.0f, 0.0f, 0.5f);
+    
+    rocket = new AnimatedSprite(p, rocketFile, rocketJson, 0.0f, 0.0f, 0.2f);
+    rocket.resize(100,100);
+
     grid1.setTileSprite(new GridLocation (rocketRow, rocketCol), rocket);
     String[][] tileMarks = {
       {"R","N","B","Q","K","B","N","R"},
@@ -188,7 +191,7 @@ public class Game extends PApplet{
         rocketCol--;
       }
 
-      if(p.key == 'd' && rocketCol != 2){
+      if(p.key == 'd' && rocketCol != 4){
       
         //Store old GridLocation
         GridLocation oldLoc = new GridLocation(rocketRow, rocketCol);
