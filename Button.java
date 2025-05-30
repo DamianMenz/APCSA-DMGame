@@ -1,7 +1,8 @@
-/* Button Class - Used to add a button into a Game
- * Author: Joel Bianchi
- * Last Edit: 5/20/25
- * Font edits
+/**
+ * Button Class - Used to add a button into a Game
+ * @author Joel A Bianchi
+ * Last Edit: 5/22/25
+ * Button IS-A Sprite now
  */
 
 import processing.core.PApplet;
@@ -10,7 +11,7 @@ import java.awt.Font;
 import java.io.InputStream;
 
 
-public class Button {
+public class Button extends Sprite{
 
     PApplet p;
 
@@ -40,8 +41,8 @@ public class Button {
     //Button Constructor
     public Button(PApplet p, String shape, float x, float y, float w, float h, String text) {
 
+        super(p, null, 1.0f, x, y,false);  //if Button is Sprite
         this.p = p;
-        //super(null,1.0, x, y,false);  //if Button is Sprite
         this.shape = shape.toUpperCase();
         this.shapeW = w;
         this.shapeH = h;
@@ -221,6 +222,5 @@ public class Button {
         return "Button shape " + this.shape + " with text \"" + this.text + "\" @loc " + this.shapeX +","+this.shapeY + " w:"+this.shapeW+" h:"+this.shapeH;
     }
 
+} // end of Button class
 
-
-} //end Button class
