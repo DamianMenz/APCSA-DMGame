@@ -43,7 +43,7 @@ public class Grid extends World{
 
   // Grid Constructor #3: Default constructor that creates a 3x3 Grid  
   public Grid(PApplet p){
-     this(p, 3,3);
+     this(p,5,3);
   }
 
 

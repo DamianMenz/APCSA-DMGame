@@ -38,13 +38,9 @@ public class Game extends PApplet{
   Grid level1Grid;
   String level1BgFile = "images/SpaceBG.jpg";
   PImage level1Bg;
-  String player1File = "images/x_wood.png";
-  PImage player1;   // Use PImage to display the image in a GridLocation
-  int player1Row = 3;
-  int player1Col = 0;
 
-  int player2Row = 0;
-  int player2Col = 2;
+  int player2Row = 3;
+  int player2Col = 1;
   int health = 3;
   AnimatedSprite player2;
   Button b1;
@@ -125,9 +121,8 @@ public class Game extends PApplet{
     runningHorse = new AnimatedSprite(p, "sprites/horse_run.png", "sprites/horse_run.json", 50.0f, 75.0f, 1.0f);
 
     //SETUP: Level 1
-    player1 = p.loadImage(player1File);
-    player1.resize(level1Grid.getTileWidth(),level1Grid.getTileHeight());
-    player2 = new AnimatedSprite(p, "sprites/chick_walk.png", "sprites/chick_walk.json", 0.0f, 0.0f, 0.5f);
+
+    player2 = new AnimatedSprite(p, "sprites/Rocket.png", "sprites/Rocket.json", 0.0f, 0.0f, 0.5f);
     level1Grid.setTileSprite(new GridLocation (player2Row, player2Col), player2);
 
     b1 = new Button(p, "rect", 625, 525, 150, 50, "GoTo Level 2");
@@ -214,7 +209,7 @@ public class Game extends PApplet{
     if(currentScreen == level1Grid){
 
       //set [W] key to move the player1 up & avoid Out-of-Bounds errors
-      if(p.key == 's'){
+      if(p.key == 'a' && player2Col != 0){
       
         //Store old GridLocation
         GridLocation oldLoc = new GridLocation(player2Row, player2Col);
@@ -223,22 +218,20 @@ public class Game extends PApplet{
         
 
         //change the field for player2Row
-        player2Row++;
+        player2Col--;
       }
 
-      // if the 'n' key is pressed, ask for their name
-      if(p.key == 'n'){
-        name = Input.getString("What is your name?");
+      if(p.key == 'd' && player2Col != 2){
+      
+        //Store old GridLocation
+        GridLocation oldLoc = new GridLocation(player2Row, player2Col);
+        
+        //Erase image from previous location
+        
+
+        //change the field for player2Row
+        player2Col++;
       }
-
-      // if the 't' key is pressed, then toggle the animation on/off
-      if(p.key == 't'){
-        //Toggle the animation on & off
-        doAnimation = !doAnimation;
-        System.out.println("doAnimation: " + doAnimation);
-      }
-
-
 
     }
 
@@ -275,12 +268,6 @@ public class Game extends PApplet{
     // "Mark" the grid coordinate to track the state of the Grid
     if(currentScreen instanceof Grid){
       ((Grid) currentScreen).setMark("X",((Grid) currentScreen).getGridLocation());
-    }
-
-    // what to do if clicked? (ex. assign a new location to player1)
-    if(currentScreen == level1Grid){
-      player1Row = level1Grid.getGridLocation().getRow();
-      player1Col = level1Grid.getGridLocation().getCol();
     }
     
 
@@ -326,10 +313,6 @@ public class Game extends PApplet{
 
       // Print a '1' in console when level1
       System.out.print("1");
-
-      // Displays the player1 image
-      GridLocation player1Loc = new GridLocation(player1Row,player1Col);
-      level1Grid.setTileImage(player1Loc, player1);
 
       // Displays the player2 image
       GridLocation player2Loc = new GridLocation(player2Row, player2Col);
