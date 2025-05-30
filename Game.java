@@ -36,38 +36,17 @@ public class Game extends PApplet{
   Grid grid1;
   PImage grid1Bg;
   String grid1BgFile = "images/SpaceBG.jpg";
-  PImage piece1;   // Use PImage to display the image in a GridLocation
-  String piece1File = "images/x_wood.png";
-  int piece1Row = 3;
-  int piece1Col = 0;
   AnimatedSprite chick;
   String chickFile = "sprites/chick_walk.png";
   String chickJson = "sprites/chick_walk.json";
   int chickRow = 0;
   int chickCol = 2;
   int health = 3;
-  Button b1;
-
-  // VARIABLES: skyWorld Screen (characters move by pixels)
-  World skyWorld;
-  PImage skyWorldBg;
-  String skyWorldBgFile = "images/sky.png";
-  Sprite zapdos; //Use Sprite for a pixel-based Location
-  String zapdosFile = "images/zapdos.png";
-  int zapdosStartX = 50;
-  int zapdosStartY = 300;
-
-  //VARIABLES: brickWorld Screen (characters jump on platforms with gravity)
-  World brickWorld;
-  PImage brickWorldBg;
-  String brickWorldBgFile = "images/wall.jpg";
-  Platform plat;
 
   // VARIABLES: endScreen
   World endScreen;
   PImage endBg;
   String endBgFile = "images/youwin.png";
-
 
   // VARIABLES: Tracking the current Screen being displayed
   Screen currentScreen;
@@ -100,21 +79,16 @@ public class Game extends PApplet{
     //SETUP: Load BG images used in all screens
     splashBg = p.loadImage(splashBgFile);
     grid1Bg = p.loadImage(grid1BgFile);
-    skyWorldBg = p.loadImage(skyWorldBgFile);
-    brickWorldBg = loadImage(brickWorldBgFile);
     endBg = p.loadImage(endBgFile);
 
     //SETUP: If non-moving, Resize all BG images to exactly match the screen size
     splashBg.resize(p.width, p.height);
     grid1Bg.resize(p.width, p.height);
-    brickWorldBg.resize(p.width, p.height);
     endBg.resize(p.width, p.height);   
 
     //SETUP: Construct each Screen, World, Grid
     splashScreen = new Screen(p, "splash", splashBg);
     grid1 = new Grid(p, "chessBoard", grid1Bg, 5, 3);
-    skyWorld = new World(p, "sky", skyWorldBgFile, 4.0f, 0.0f, -800.0f); //moveable World constructor
-    brickWorld = new World(p,"platformer", brickWorldBg);
     endScreen = new World(p, "end", endBg);
     currentScreen = splashScreen;
 
@@ -122,18 +96,8 @@ public class Game extends PApplet{
     runningHorse = new AnimatedSprite(p, "sprites/horse_run.png", "sprites/horse_run.json", 50.0f, 75.0f, 1.0f);
 
     //SETUP: Setup more grid1 objects
-    piece1 = p.loadImage(piece1File);
-    piece1.resize(grid1.getTileWidth(),grid1.getTileHeight());
     chick = new AnimatedSprite(p, chickFile, chickJson, 0.0f, 0.0f, 0.5f);
     grid1.setTileSprite(new GridLocation (chickRow, chickCol), chick);
-    b1 = new Button(p, "rect", 625, 525, 150, 50, "GoTo Level 2");
-    grid1.addSprite(b1);
-    // b1.setFontStyle("fonts/spidermanFont.ttf");
-    b1.setFontStyle("Calibri");
-    b1.setTextColor(PColor.WHITE);
-    b1.setButtonColor(PColor.BLACK);
-    b1.setHoverColor(PColor.get(100,50,200));
-    b1.setOutlineColor(PColor.WHITE);
     String[][] tileMarks = {
       {"R","N","B","Q","K","B","N","R"},
       {"P","P","P","P","P","P","P","P"},
@@ -146,22 +110,6 @@ public class Game extends PApplet{
     grid1.startPrintingGridMarks();
     System.out.println("Done loading Level 1 (grid1)...");
     
-    //SETUP: Setup more skyWorld objects
-    zapdos = new Sprite(p, zapdosFile, 0.25f);
-    zapdos.moveTo(zapdosStartX, zapdosStartY);
-    skyWorld.addSprite(zapdos);
-    skyWorld.addSpriteCopyTo(runningHorse, 100, 200);  //example Sprite added to a World at a location, with a speed
-    skyWorld.printWorldSprites();
-    System.out.println("Done loading Level 2 (skyWorld)...");
-
-    // SETUP: Setup more brickWorld objects
-    plat = new Platform(p, PColor.MAGENTA, 500.0f, 100.0f, 200.0f, 20.0f);
-    plat.setOutlineColor(PColor.BLACK);
-    // plat.startGravity(5.0f); //sets gravity to a rate of 5.0
-    brickWorld.addSprite(plat);    
-    System.out.println("Done loading Level 3 (brickWorld)...");
-
-
     //SETUP: Sound
     // Load a soundfile from the sounds folder of the sketch and play it back
      //song = new SoundFile(p, "sounds/Lenny_Kravitz_Fly_Away.mp3");
@@ -243,28 +191,16 @@ public class Game extends PApplet{
       }
 
 
-
     }
 
-    if(currentScreen == brickWorld){
-      if(p.key == 'w'){
-        plat.jump();
-      }
-    }
 
     //CHANGING SCREENS BASED ON KEYS
     //change to level1 if 1 key pressed, level2 if 2 key is pressed
     if(p.key == '1'){
       currentScreen = grid1;
-    } else if(p.key == '2'){
-      currentScreen = skyWorld;
-    } else if(p.key == '3'){
-      currentScreen = brickWorld;
-
-      //reset the moving Platform every time the Screen is re-displayed
-      plat.moveTo(500.0f, 100.0f);
-      plat.setSpeed(0,0);
-    }
+    } else if(p.key == 'e'){
+      currentScreen = endScreen;
+    } 
 
   }
 
@@ -290,8 +226,8 @@ public class Game extends PApplet{
 
     // what to do if clicked? (ex. assign a new location to piece1)
     if(currentScreen == grid1){
-      piece1Row = grid1.getGridLocation().getRow();
-      piece1Col = grid1.getGridLocation().getCol();
+
+
     }
     
 
@@ -340,47 +276,18 @@ public class Game extends PApplet{
       // Print a '1' in console when level1
       System.out.print("1");
 
-      // Displays the piece1 image
-      GridLocation piece1Loc = new GridLocation(piece1Row,piece1Col);
-      grid1.setTileImage(piece1Loc, piece1);
-
       // Displays the chick image
       GridLocation chickLoc = new GridLocation(chickRow, chickCol);
       grid1.setTileSprite(chickLoc, chick);
 
-      // Moves to next level based on a button click
-      // b1.show();
-      if(b1.isClicked()){
-        System.out.println("\nButton Clicked");
-        currentScreen = skyWorld;
-      }
     
     }
     
-    // UPDATE: skyWorld Screen
-    if(currentScreen == skyWorld){
-
-      // Print a '2' in console when skyWorld
-      System.out.print("2");
-
-      // Set speed of moving skyWorld background
-      skyWorld.moveBgXY(-0.3f, 0f);
-
-    }
-
-    // UPDATE: brickWorld Screen
-    if(currentScreen == brickWorld){
-
-      // Print a '3 in console when brickWorld
-      System.out.print("3");
-
-
-    }
 
     // UPDATE: End Screen
-    // if(currentScreen == endScreen){
+    if(currentScreen == endScreen){
 
-    // }
+    }
 
     // UPDATE: Any Screen
     if(doAnimation){
