@@ -2,19 +2,19 @@
  * Sprite class - to create objects that move around with their own properties
  * Inspired by Daniel Shiffman's p5js Animated Sprite tutorial
  * Note: Picture coordinate origina at top, left corner
- * @author Joel Bianchi
+ * @author Joel A Bianchi
  * @author Marcus Bistline
  * @version 5/29/25
  * updated formatting for javadoc
  * Added isOverlapping() method
- * Added isTouchingTop() method
+ * Added isTouchingTop(), isTouchingBottom(), isTouchingRight(), and isTouchingLeft() methods
  * Added isSolid property to Sprites
  */
 
-
 import processing.core.PApplet;
 import processing.core.PImage;
- 
+
+
 public class Sprite{
 
   public PApplet p;
@@ -35,9 +35,9 @@ public class Sprite{
   private boolean isSolid = true;
   private boolean isAnimated;
   private boolean hasGravity = false;
-  private float defaultGravity = 5.0f;
+  private float defaultGravity = 20.0f;
   private float gravityStrength = defaultGravity;
-  private float defaultJumpSpeed = 6.0f;
+  private float defaultJumpSpeed = 12.0f;
 
 
   //------------------ SPRITE CONSTRUCTORS --------------------//
@@ -105,9 +105,7 @@ public class Sprite{
     this.speedY = 0;
     this.isAnimated = isAnimated;
     this.isSolid = true;
-
     // System.out.println("---->Sprite Class: "+ Game.toStringPImage(spriteImg));
-
   }
 
   /**
@@ -257,6 +255,20 @@ public class Sprite{
     this.accelY = accelY;
   }
 
+  /** 
+   * @return float      acceleration of the Sprite in the Y-direction
+   */
+  public float getAccelerationY(){
+    return accelY;
+  }
+
+  /** 
+   * @return float    acceleration of the Sprite in the X-direction
+   */
+  public float getAccelerationX(){
+    return accelX;
+  }
+
   /**
    * Starts gravity acting on a Sprite at default rate or previously defined rate
    */
@@ -280,6 +292,7 @@ public class Sprite{
   public void stopGravity(){
     this.hasGravity = false;
     setAccelerationY(0.0f);
+    setSpeedY(0.0f);
   }
   
   /** 
@@ -361,7 +374,7 @@ public class Sprite{
    * @param cushion       number of pixels above the top before considering the top touched
    * @return boolean      true if this Sprite is touching the top of the other Sprite, false otherwise
    */
-  public boolean isTouchingTop(Sprite otherSprite, double cushion){
+  public boolean isTouchingTop(Sprite otherSprite, float cushion){
     if(this.getBottom() > otherSprite.getTop()-cushion //is player low enough to touch platform
       && this.getBottom() < otherSprite.getBottom() // is player still above the platform
       && this.getLeft() < otherSprite.getRight() // is player inside the right edge of platform
@@ -378,8 +391,105 @@ public class Sprite{
    * @return boolean      true if this Sprite is touching the top of the other Sprite, false otherwise
    */
   public boolean isTouchingTop(Sprite otherSprite){
-    return isTouchingTop(otherSprite, 10);
+    return isTouchingTop(otherSprite, 2);
   }
+  
+  /** 
+   * Checks if sprite has bumped into the bottom of another sprite with a specified cushion on bottom
+   * @author Marcus Bistline 2025
+   * @param otherSprite   second Sprite to compare this Sprite with
+   * @param cushion       number of pixels above the top before considering the top touched
+   * @return boolean      true if this Sprite is touching the bottom of the other Sprite, false otherwise
+   */
+  public boolean isTouchingBottom(Sprite otherSprite, float cushion){
+    if(this.getTop() > otherSprite.getTop() //is player below the platform
+      && this.getTop() < otherSprite.getBottom()+cushion // is player's head hitting very close to the platform bottom
+      && this.getLeft() < otherSprite.getRight() // is player inside the right edge of platform
+      && this.getRight() > otherSprite.getLeft()){ // is player inside the left edge of platform
+        return true;
+    } else {
+      return  false;
+    }
+  }
+
+  /** 
+   * Checks if sprite has bumped into the bottom of another sprite
+   * @param otherSprite   second Sprite to compare this Sprite with
+   * @return boolean      true if this Sprite is touching the bottom of the other Sprite, false otherwise
+   */
+  public boolean isTouchingBottom(Sprite otherSprite){
+    return isTouchingBottom(otherSprite, 2);
+  }
+
+   /** 
+   * Checks if sprite has bumped into the right side of another sprite with a specified cushion on right
+   * @author Marcus Bistline 2025
+   * @param otherSprite   second Sprite to compare this Sprite with
+   * @param cushion       extra pixels to the right to consider the right touched
+   * @return boolean      true if this Sprite is touching the right side of the other Sprite, false otherwise
+   */
+  public boolean isTouchingRight(Sprite otherSprite, float cushion){
+    if(this.getLeft() > otherSprite.getRight()-cushion // is player's left to the right of the right edge of platform
+      && this.getLeft() < otherSprite.getRight()+cushion // is player's left edge close to the right edge of platform
+      && this.getTop() < otherSprite.getBottom() //is player above platform bottom
+      && this.getBottom() > otherSprite.getTop() // is player below platform top
+    ){
+        return true;
+    } else {
+      return  false;
+    }
+  }
+
+  /** 
+   * Checks if sprite has landed on top of another sprite
+   * @param otherSprite   second Sprite to compare this Sprite with
+   * @return boolean      true if this Sprite is touching the right side of the other Sprite, false otherwise
+   */
+  public boolean isTouchingRight(Sprite otherSprite){
+    return isTouchingRight(otherSprite, 2);
+  }
+
+  /** 
+   * Checks if sprite has bumped into the left side of another sprite with a specified cushion on left
+   * @author Marcus Bistline 2025
+   * @param otherSprite   second Sprite to compare this Sprite with
+   * @param cushion       extra pixels to the right to consider the right touched
+   * @return boolean      true if this Sprite is touching the left side of the other Sprite, false otherwise
+   */
+  public boolean isTouchingLeft(Sprite otherSprite, float cushion){
+    if(this.getRight() < otherSprite.getLeft()+cushion // is player's right to the left of the left edge of platform
+      && this.getRight() > otherSprite.getLeft()-cushion // is player's right edge close to the left edge of platform
+      && this.getTop() < otherSprite.getBottom() //is player above platform bottom
+      && this.getBottom() > otherSprite.getTop() // is player below platform top
+    ){
+      return true;
+    } else {
+      return  false;
+    }
+  }
+
+  /** 
+   * Checks if sprite has bumped into the left side of another sprite
+   * @param otherSprite   second Sprite to compare this Sprite with
+   * @return boolean      true if this Sprite is touching the left side of the other Sprite, false otherwise
+   */
+  public boolean isTouchingLeft(Sprite otherSprite){
+    return isTouchingLeft(otherSprite, 2);
+  }
+	
+  /** 
+   * Checks if collision occurs at the bottom of this Sprite
+   * @param otherSprite     second Sprite to compare this Sprite with
+   * @param cushion         how close do feet need to be to ground
+   * @return boolean        return true if feet are close to the ground
+   */
+  public boolean doesCollideBottom(Sprite otherSprite, float cushion){
+    float diff = Math.abs(getBottom() - otherSprite.getTop()); //gap between feet and grass
+		if(diff < cushion){
+			return true;
+		}
+		return false;
+	}
 
   
   //------------------ SPRITE COORDINATES ACCESSOR & MUTATOR METHODS --------------------//
@@ -454,7 +564,6 @@ public class Sprite{
   public void setCenterY(float centerY){
     this.centerY=centerY;
   }
-
 
   /*------------------ SPRITE BOUNDARY METHODS  --------------------
   * -- Used from Long Bao Nguyen
@@ -673,4 +782,4 @@ public class Sprite{
     return "Sprite: fn: "+ spriteImgFile + "\tx:" + centerX + "\ty:" + centerY + "\tL:" + getLeft() + "\tT:" + getTop() + "\tVx:" + speedX + "\tVy:" + speedY + "\tw:" + w + "\th:" + h + "\t" + isAnimated;
   }
 
-}
+} // end of Sprite class

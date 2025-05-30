@@ -1,13 +1,11 @@
-
 /**
  * Screen class - a high level class that handles background screens & millisecond timing
  * Has a World Subclass
- * @author Joel Bianchi
+ * @author Joel A Bianchi
  * @author Carey Jiang
  * @version 5/29/25
  * updated formatting for javadoc
  */
-
 
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -32,15 +30,15 @@ public class Screen{
      * Screen Constructor #1: Stationary background image
      * @param p             Processing applet
      * @param screenName    String to track Screens
-     * @param bg            stationary background image
+     * @param bgImg         stationary background image
      */
-    public Screen(PApplet p, String screenName, PImage bg) {
+    public Screen(PApplet p, String screenName, PImage bgImg) {
         this.p = p;
         this.isMoveable = false;
         this.setName(screenName);
-        if(bg != null) {
-            this.setBg(bg);
-            System.out.println("bg of " + screenName + " Screen: " + Util.toStringPImage(bg));
+        if(bgImg != null) {
+            this.setBg(bgImg);
+            System.out.println("bg of " + screenName + " Screen: " + Util.toStringPImage(bgImg));
         }
         startTime = getTotalTime(); //?
 
@@ -103,11 +101,11 @@ public class Screen{
 
     /** 
      * Sets the background image for NON-MOVEABLE backgrounds
-     * @param bg            stationary background image
+     * @param bgImg            stationary background image
      */
-    public void setBg(PImage bg){
+    public void setBg(PImage bgImg){
         if(!isMoveable){
-            this.bg = bg;
+            this.bg = bgImg;
             //p.background(bg);
         }
     }
@@ -263,5 +261,4 @@ public class Screen{
         return "Screen: " + screenName + " at LeftX:" + getLeftX() + " ,TopY:" + getTopY() ;
     }
 
-
-}
+} // end of Screen class
