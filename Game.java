@@ -3,11 +3,17 @@
  * @author Damian M
  * @version 5/29/25
  * Added example for using grid method setAllMarks()
+/**
+ * Game Class - Primary game logic for a Java-based Processing Game
+ * @author Damian M
+ * @version 5/29/25
+ * Added example for using grid method setAllMarks()
  */
 
 //import processing.sound.*;
 import processing.core.PApplet;
 import processing.core.PImage;
+
 
 
 public class Game extends PApplet{
@@ -82,13 +88,17 @@ public class Game extends PApplet{
     endBg = p.loadImage(endBgFile);
 
     //SETUP: If non-moving, Resize all BG images to exactly match the screen size
+    grid1Bg = p.loadImage(grid1BgFile);
+    endBg = p.loadImage(endBgFile);
+
+    //SETUP: If non-moving, Resize all BG images to exactly match the screen size
     splashBg.resize(p.width, p.height);
     grid1Bg.resize(p.width, p.height);
     endBg.resize(p.width, p.height);   
-
+   
     //SETUP: Construct each Screen, World, Grid
     splashScreen = new Screen(p, "splash", splashBg);
-    grid1 = new Grid(p, "chessBoard", grid1Bg, 5, 3);
+    grid1 = new Grid(p, "space", grid1Bg, 5, 3);
     endScreen = new World(p, "end", endBg);
     currentScreen = splashScreen;
 
@@ -194,13 +204,14 @@ public class Game extends PApplet{
     }
 
 
+
     //CHANGING SCREENS BASED ON KEYS
     //change to grid1 if 1 key pressed, level2 if 2 key is pressed
     if(p.key == '1'){
       currentScreen = grid1;
     } else if(p.key == 'e'){
       currentScreen = endScreen;
-    } 
+    }
 
   }
 
@@ -224,6 +235,12 @@ public class Game extends PApplet{
       ((Grid) currentScreen).setMark("X",((Grid) currentScreen).getGridLocation());
     }
 
+    // what to do if clicked? (ex. assign a new location to piece1)
+    if(currentScreen == grid1){
+
+
+    }
+    
     // what to do if clicked? (ex. assign a new location to piece1)
     if(currentScreen == grid1){
 
@@ -286,7 +303,6 @@ public class Game extends PApplet{
 
     // UPDATE: End Screen
     if(currentScreen == endScreen){
-
     }
 
     // UPDATE: Any Screen
@@ -330,6 +346,7 @@ public class Game extends PApplet{
           //Get image/sprite from current location
             
 
+          //CASE 1: Collision with piece1
           //CASE 1: Collision with piece1
 
 
@@ -385,6 +402,5 @@ public class Game extends PApplet{
       currentScreen = endScreen;
 
   }
-
 
 } // end of Game class
