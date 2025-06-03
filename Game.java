@@ -43,11 +43,13 @@ public class Game extends PApplet{
   String grid1BgFile = "images/SpaceBG.jpg";
   PImage grid1Bg;
   AnimatedSprite rocket;
+  String meteorFile = "sprites/Meteor.png";
+  Sprite meteor;
   String rocketFile = "sprites/Rocket.png";
   String rocketJson = "sprites/Rocket.json";
   int rocketRow = 4;
   int rocketCol = 1;
-  int health = 3;
+  
 
   // VARIABLES: endScreen
   World endScreen;
@@ -106,7 +108,7 @@ public class Game extends PApplet{
     runningHorse = new AnimatedSprite(p, "sprites/horse_run.png", "sprites/horse_run.json", 50.0f, 75.0f, 1.0f);
 
     //SETUP: Setup more grid1 objects
-    
+    meteor = new Sprite(p, meteorFile, 1.0f, 0, 0, false);
     rocket = new AnimatedSprite(p, rocketFile, rocketJson, 0.0f, 0.0f, 0.2f);
     rocket.resize(100,100);
 
@@ -265,7 +267,7 @@ public class Game extends PApplet{
       extraText = currentScreen.getName();
 
       //set the title each loop
-      surface.setTitle(titleText + "\t// CurrentScreen: " + extraText + " \t // Name: " + name + "\t // Health: " + health );
+      surface.setTitle(titleText);
 
       //adjust the extra text as desired
     
@@ -321,15 +323,9 @@ public class Game extends PApplet{
   // Populates enemies or other sprites on the Screen
   public void populateSprites(){
 
-    //What is the index for the last column?
-    
+    int spawnCol = (int)(Math.random()*5);
 
-    //Loop through all the rows in the last column
-
-      //Generate a random number
-
-
-      //10% of the time, decide to add an enemy image to a Tile
+    grid1.setTileSprite(new GridLocation(0, spawnCol), meteor);
       
 
   }
@@ -337,6 +333,8 @@ public class Game extends PApplet{
   // Moves around the enemies/sprites on the Screen
   public void moveSprites(){
 
+  
+    
     //Loop through all of the rows & cols in the grid
 
         //Store the current GridLocation
