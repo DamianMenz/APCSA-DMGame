@@ -49,7 +49,7 @@ public class Game extends PApplet{
   String rocketJson = "sprites/Rocket.json";
   int rocketRow = 4;
   int rocketCol = 1;
-  
+  int health = 1;
 
   // VARIABLES: endScreen
   World endScreen;
@@ -108,7 +108,7 @@ public class Game extends PApplet{
     runningHorse = new AnimatedSprite(p, "sprites/horse_run.png", "sprites/horse_run.json", 50.0f, 75.0f, 1.0f);
 
     //SETUP: Setup more grid1 objects
-    meteor = new Sprite(p, meteorFile, 1.0f, 0, 0, false);
+    meteor = new Sprite(p, meteorFile, 3.0f, 0, 0, false);
     rocket = new AnimatedSprite(p, rocketFile, rocketJson, 0.0f, 0.0f, 0.2f);
     rocket.resize(100,100);
 
@@ -327,13 +327,44 @@ public class Game extends PApplet{
 
     grid1.setTileSprite(new GridLocation(0, spawnCol), meteor);
       
-
   }
 
   // Moves around the enemies/sprites on the Screen
   public void moveSprites(){
 
-  
+  for(int r = 0; r < grid1.getNumRows(); r++){
+for(int c = 0; c < grid1.getNumCols(); c++){
+
+  GridLocation loc = new GridLocation(r, c);
+
+  GridLocation nextLoc = new GridLocation(r+1, c);
+
+  if(!rocket.equals(grid1.getTileSprite(loc))){
+
+    Sprite currentSprite = grid1.getTileSprite(loc);
+    Sprite nextSprite = grid1.getTileSprite(nextLoc);
+
+    if(meteor.equals(currentSprite) && rocket.equals(nextSprite)){
+                health = 0;
+    }
+
+else if(meteor.equals(currentSprite)){
+
+              grid1.clearTileSprite(loc);
+              grid1.setTileSprite(nextLoc, meteor);
+
+    }
+
+else{
+
+}
+
+  }
+
+
+}
+  }
+}
     
     //Loop through all of the rows & cols in the grid
 
@@ -361,7 +392,7 @@ public class Game extends PApplet{
             
         //CASE 3: Enemy leaves screen at first column
 
-  }
+  
 
   // Checks if there is a collision between Sprites on the Screen
   public boolean checkCollision(GridLocation loc, GridLocation nextLoc){

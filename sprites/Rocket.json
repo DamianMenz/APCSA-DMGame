@@ -3,10 +3,10 @@
     {
       "filename": "0.png",
       "frame": {
-        "x": 0,
+        "x": 6,
         "y": 0,
-        "w": 26,
-        "h": 58
+        "w": 32,
+        "h": 32
       },
       "rotated": false,
       "trimmed": true,
@@ -17,8 +17,8 @@
         "h": 96
       },
       "sourceSize": {
-        "w": 80,
-        "h": 100
+        "w": 64,
+        "h": 32
       },
       "pivot": {
         "x": 0.5,
@@ -28,10 +28,10 @@
     {
       "filename": "1.png",
       "frame": {
-        "x": 30,
+        "x": 6,
         "y": 0,
-        "w": 56,
-        "h": 92
+        "w": 32,
+        "h": 32
       },
       "rotated": false,
       "trimmed": true,
@@ -42,8 +42,8 @@
         "h": 92
       },
       "sourceSize": {
-        "w": 80,
-        "h": 100
+        "w": 64,
+        "h": 32
       },
       "pivot": {
         "x": 0.5,
@@ -57,8 +57,8 @@
     "image": "texture.png",
     "format": "RGBA8888",
     "size": {
-      "w": 112,
-      "h": 376
+      "w": 56,
+      "h": 188
     },
     "scale": 1
   }
