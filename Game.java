@@ -144,8 +144,8 @@ public class Game extends PApplet{
     updateScreen();
 
     // DRAW LOOP: Set Timers
-    int cycleTime = 1;  //milliseconds
-    int slowCycleTime = 300;  //milliseconds
+    int cycleTime = 100;  //milliseconds
+    int slowCycleTime = 500;  //milliseconds
     if(slowCycleTimer == null){
       slowCycleTimer = new CycleTimer(p, slowCycleTime);
     }
@@ -332,30 +332,29 @@ public class Game extends PApplet{
   // Moves around the enemies/sprites on the Screen
   public void moveSprites(){
 
-  for(int r = 0; r < grid1.getNumRows(); r++){
-for(int c = 0; c < grid1.getNumCols(); c++){
+  for(int r = grid1.getNumRows()-2; r >= 0;r--){
+    for(int c = 0; c < grid1.getNumCols(); c++){
 
-  GridLocation loc = new GridLocation(r, c);
+    GridLocation locc = new GridLocation(r, c);
+    GridLocation nextLoc = new GridLocation(r+1, c);
+  
+    if(!rocket.equals(grid1.getTileSprite(locc))){
 
-  GridLocation nextLoc = new GridLocation(r+1, c);
-
-  if(!rocket.equals(grid1.getTileSprite(loc))){
-
-    Sprite currentSprite = grid1.getTileSprite(loc);
+    Sprite currentSprite = grid1.getTileSprite(locc);
     Sprite nextSprite = grid1.getTileSprite(nextLoc);
 
     if(meteor.equals(currentSprite) && rocket.equals(nextSprite)){
                 health = 0;
     }
 
-else if(meteor.equals(currentSprite)){
+    else if(meteor.equals(currentSprite) && r !=5){
 
-              grid1.clearTileSprite(loc);
+              grid1.clearTileSprite(locc);
               grid1.setTileSprite(nextLoc, meteor);
 
     }
-
 else{
+
 
 }
 
@@ -420,7 +419,9 @@ else{
 
   // Indicates when the main game is over
   public boolean isGameOver(){
-    
+    if (health == 0){
+    return true;
+    }
     return false; //by default, the game is never over
   }
 
