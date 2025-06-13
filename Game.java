@@ -50,12 +50,12 @@ public class Game extends PApplet{
 
   // VARIABLES: endScreen
   World endScreen;
-  String endBgFile = "images/youwin.png";
+  String endBgFile = "images/go.jpeg";
 
   // VARIABLES: Tracking the current Screen being displayed
   Screen currentScreen;
   CycleTimer slowCycleTimer;
-
+  CycleTimer otherCycleTimer;
   boolean start = true;
 
 
@@ -125,14 +125,24 @@ public class Game extends PApplet{
 
     // DRAW LOOP: Set Timers
     int cycleTime = 1;  //milliseconds
-    int slowCycleTime = 500;  //milliseconds
+    int slowCycleTime = 1200;  //milliseconds
+    int otherCycleTime = 300;
+
     if(slowCycleTimer == null){
       slowCycleTimer = new CycleTimer(p, slowCycleTime);
     }
+  
+    if(otherCycleTimer == null){
+      otherCycleTimer = new CycleTimer(p, otherCycleTime);
+    }
+    
 
     // DRAW LOOP: Populate & Move Sprites
     if(slowCycleTimer.isDone()){
       populateSprites();
+    }
+
+    if(otherCycleTimer.isDone()){
       moveSprites();
     }
 
@@ -164,8 +174,10 @@ public class Game extends PApplet{
       if(p.key == 'a' && rocketCol != 0){
       
         //Store old GridLocation
-        GridLocation oldLoc = new GridLocation(rocketRow, rocketCol);
         
+    
+        GridLocation oldLocl = new GridLocation(rocketRow, rocketCol);
+        grid1.clearTileSprite(oldLocl);
         //Erase image from previous location
         
 
@@ -176,8 +188,9 @@ public class Game extends PApplet{
       if(p.key == 'd' && rocketCol != 4){
       
         //Store old GridLocation
-        GridLocation oldLoc = new GridLocation(rocketRow, rocketCol);
+        GridLocation oldLocr = new GridLocation(rocketRow, rocketCol);
         
+        grid1.clearTileSprite(oldLocr);
         //Erase image from previous location
         
 
@@ -331,12 +344,13 @@ public class Game extends PApplet{
           if(meteor.equals(currentSprite) && rocket.equals(nextSprite)){
             health = 0;
           }
-          else if(meteor.equals(currentSprite) && r !=5){
+          else if(meteor.equals(currentSprite)){
             grid1.clearTileSprite(locc);
             grid1.setTileSprite(nextLoc, currentSprite);
           }
           else{
 
+      
           }
         }
       } // closes col for loop
