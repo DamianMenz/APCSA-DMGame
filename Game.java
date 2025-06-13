@@ -1,17 +1,15 @@
 /**
  * Game Class - Primary game logic for a Java-based Processing Game
- * @author Damian M
- * @version 5/29/25
- * Added example for using grid method setAllMarks()
 /**
  * Game Class - Primary game logic for a Java-based Processing Game
  * @author Damian M
- * @version 5/29/25
- * Added example for using grid method setAllMarks()
+ * @version 6/12/25
+ * No need to create PImage for bg
  */
 
 //import processing.sound.*;
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PImage;
 
 
@@ -34,7 +32,6 @@ public class Game extends PApplet{
 
   // VARIABLES: splashScreen
   Screen splashScreen;
-  PImage splashBg;
   String splashBgFile = "images/SRR.jpg";
   //SoundFile song;
 
@@ -53,7 +50,6 @@ public class Game extends PApplet{
 
   // VARIABLES: endScreen
   World endScreen;
-  PImage endBg;
   String endBgFile = "images/youwin.png";
 
   // VARIABLES: Tracking the current Screen being displayed
@@ -78,30 +74,14 @@ public class Game extends PApplet{
   //Required Processing method that gets run once
   public void setup() {
 
-    p.imageMode(p.CORNER);    //Set Images to read coordinates at corners
-    //fullScreen();   //only use if not using a specfic bg image
-    
     //SETUP: Set the title on the title bar
     surface.setTitle(titleText);
+    p.imageMode(PConstants.CORNER);    //Set Images to read coordinates at corners
 
-    //SETUP: Load BG images used in all screens
-    splashBg = p.loadImage(splashBgFile);
-    grid1Bg = p.loadImage(grid1BgFile);
-    endBg = p.loadImage(endBgFile);
-
-    //SETUP: If non-moving, Resize all BG images to exactly match the screen size
-    grid1Bg = p.loadImage(grid1BgFile);
-    endBg = p.loadImage(endBgFile);
-
-    //SETUP: If non-moving, Resize all BG images to exactly match the screen size
-    splashBg.resize(p.width, p.height);
-    grid1Bg.resize(p.width, p.height);
-    endBg.resize(p.width, p.height);   
-   
     //SETUP: Construct each Screen, World, Grid
-    splashScreen = new Screen(p, "splash", splashBg);
-    grid1 = new Grid(p, "space", grid1Bg, 6, 5);
-    endScreen = new World(p, "end", endBg);
+    splashScreen = new Screen(p, "splash", splashBgFile);
+    grid1 = new Grid(p, "space", grid1BgFile, 6, 5);
+    endScreen = new World(p, "end", endBgFile);
     currentScreen = splashScreen;
 
     //SETUP: Construct Game objects used in All Screens
