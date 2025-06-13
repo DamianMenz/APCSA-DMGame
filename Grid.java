@@ -4,9 +4,8 @@
  * Subclass of World that can show all Images & Sprites
  * @author Joel A Bianchi
  * @author RJ Morel
- * @version 5/29/25
- * setAllMarks() method that can take in a 2D array of Strings
- * added javadoc formatting
+ * @version 6/13/25
+ * Added copyTileSprite() & moveTileSprite() to help with populating & moving Sprites through the Grid
  */
 
 import processing.core.PApplet;
@@ -448,9 +447,32 @@ public class Grid extends World{
     sprite.setCenterY(getCenterY(loc));
     tile.setSprite(sprite);
     showTileSprite(loc);
-    //System.out.println("Succcessfully set tile @ " + loc);
+    if (!loc.equals(new GridLocation(4,1))) {
+      System.out.println("Succcessfully set tile @ " + loc);
+    }
   }
-  
+
+  /** 
+   * Moves the Sprite at a particular tile in the grid to a new location
+   * @param oldLoc      original GridLocation of the Sprite
+   * @param newLoc      new GridLocation of the Sprite
+   */
+  public void moveTileSprite(GridLocation oldLoc, GridLocation newLoc){
+    Sprite currentSprite = getTileSprite(oldLoc);
+    clearTileSprite(oldLoc);
+    setTileSprite(newLoc, currentSprite);
+  }
+
+  /** 
+   * Sets a copy of a Sprite at a particular tile in the grid & displays it
+   * @param loc         GridLocation to add copied Sprite to
+   * @param sprite      Sprite to make a copy of and add to tile
+   */
+  public void copyTileSprite(GridLocation loc, Sprite sprite){
+    Sprite copySprite = sprite.copy();
+    setTileSprite(loc, copySprite);
+  }
+
   /** 
    * Gets the Sprite from a specific GridTile
    * @param loc         GridLocation for a specific GridTile
@@ -473,7 +495,8 @@ public class Grid extends World{
   }
 
   /** 
-   * Clears the image from a particular tile
+   * Clears the Sprite from a particular tile
+   * If trying to move the Sprite, use moveTileSprite() instead
    * @param loc         GridLocation for a specific GridTile
    */
   public void clearTileSprite(GridLocation loc){

@@ -91,8 +91,7 @@ public class Sprite{
     if(!isAnimated){
       if( spriteImgFile != null){
         this.spriteImg = p.loadImage(spriteImgFile);
-        w = spriteImg.width * scale;
-        h = spriteImg.height * scale;
+        scale(scale);
         // System.out.println("Sprite 64: " + spriteImg);
       } else {
 
@@ -174,10 +173,10 @@ public class Sprite{
 
     // Sprite is just a blob of color
     else{
-      // System.out.println("spriteshow\tcolor blob");
+      System.out.println("spriteshow\tcolor blob");
     }
   }
-  
+
   /**
    * Moves Sprite image on the screen to a specific coordinate 
    * @param x           moves left edge to this pixel value
@@ -731,6 +730,16 @@ public class Sprite{
    */
   public void resize(int width, int height){
     spriteImg.resize(width, height);
+  }
+
+  /** 
+   * Scales Sprite to be bigger (with values > 1.0f)
+   * and smaller (with values < 1.0f)
+   * @param scale       number to multiple height & width of image by
+   */
+  public void scale(float scale){
+    w = spriteImg.width * scale;
+    h = spriteImg.height * scale;
   }
   
   /** 
